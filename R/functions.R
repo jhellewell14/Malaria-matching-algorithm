@@ -7,7 +7,7 @@ read_humans <- function(sixteen){
   if(sixteen){
     fname<-system.file("extdata/Humans_16.csv",package="malmatch")
   }else{
-    fname<-system.file("extdata/thepath.csv",package="malmatch")
+    fname<-system.file("extdata/Humans_10.csv",package="malmatch")
   }
 
   # clear out rows without markers
@@ -35,7 +35,7 @@ read_mosquitoes <- function(sixteen){
   if(sixteen){
     fname<-system.file("extdata/Mosquitoes_16.csv",package="malmatch")
   }else{
-    fname<-system.file("extdata/thepath.csv",package="malmatch")
+    fname<-system.file("extdata/Mosquitoes_10.csv",package="malmatch")
   }
 
   # Read in csv file and clean
