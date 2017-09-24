@@ -3,6 +3,7 @@
 #' @param sixteen boolean denoting whether use wants 10 or 17 marker data
 read_humans <- function(sixteen){
 
+  # Fetch correct dataset
   if(sixteen){
     fname<-system.file("extdata/Humans_16.csv",package="malmatch")
   }else{
@@ -27,8 +28,15 @@ read_humans <- function(sixteen){
 
 #' Reads in csv file of mosquito data
 #'
-#' @param fname string input of filename
-read_mosquitoes <- function(fname){
+#' @param sixteen boolean specifying whether user wants 10 or 17 marker dataset
+read_mosquitoes <- function(sixteen){
+
+  # Fetch correct dataset
+  if(sixteen){
+    fname<-system.file("extdata/Mosquitoes_16.csv",package="malmatch")
+  }else{
+    fname<-system.file("extdata/thepath.csv",package="malmatch")
+  }
 
   # Read in csv file and clean
   m <- read.table(fname,header=TRUE,sep=",",colClasses = c("character","character","character","numeric","numeric"))

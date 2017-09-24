@@ -4,10 +4,10 @@
 \alias{read_mosquitoes}
 \title{Reads in csv file of mosquito data}
 \usage{
-read_mosquitoes(fname)
+read_mosquitoes(sixteen)
 }
 \arguments{
-\item{fname}{string input of filename}
+\item{sixteen}{boolean specifying whether user wants 10 or 17 marker dataset}
 }
 \description{
 Reads in csv file of mosquito data
