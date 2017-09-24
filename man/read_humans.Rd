@@ -4,12 +4,10 @@
 \alias{read_humans}
 \title{Reads in csv file data for humans}
 \usage{
-read_humans(fname, agefile)
+read_humans(sixteen)
 }
 \arguments{
-\item{fname}{string input filename}
-
-\item{agefile}{string input file containing corresponding human ages}
+\item{sixteen}{boolean denoting whether use wants 10 or 17 marker data}
 }
 \description{
 Reads in csv file data for humans

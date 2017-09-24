@@ -1,8 +1,13 @@
 #' Reads in csv file data for humans
 #'
-#' @param fname string input filename
-#' @param agefile string input file containing corresponding human ages
-read_humans <- function(fname,agefile){
+#' @param sixteen boolean denoting whether use wants 10 or 17 marker data
+read_humans <- function(sixteen){
+
+  if(sixteen){
+    fname<-system.file("extdata/Humans_16.csv",package="malmatch")
+  }else{
+    fname<-system.file("extdata/thepath.csv",package="malmatch")
+  }
 
   # clear out rows without markers
   h <- read.table(fname,header=TRUE,sep=",") %>% filter(Marker!="" & Size>50)
