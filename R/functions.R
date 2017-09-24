@@ -11,7 +11,7 @@ read_humans <- function(sixteen){
   }
 
   # clear out rows without markers
-  h <- read.table(fname,header=TRUE,sep=",") %>% filter(Marker!="" & Size>50)
+  h <- read.table(file = fname,header=TRUE,sep=",") %>% filter(Marker!="" & Size>50)
 
   # add household ID and number of residents to samples
   h %<>% mutate(household=substr(Human.ID,1,3)) %>% group_by(household) %>% mutate(hnum=length(unique(Human.ID))) %>% ungroup
