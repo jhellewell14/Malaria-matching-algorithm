@@ -1,4 +1,7 @@
-
+#' Reads in csv file data for humans
+#'
+#' @param fname string input filename
+#' @param agefile string input file containing corresponding human ages
 read_humans <- function(fname,agefile){
 
   # clear out rows without markers
@@ -17,7 +20,9 @@ read_humans <- function(fname,agefile){
 
 
 
-
+#' Reads in csv file of mosquito data
+#'
+#' @param fname string input of filename
 read_mosquitoes <- function(fname){
 
   # Read in csv file and clean
@@ -30,6 +35,10 @@ read_mosquitoes <- function(fname){
   return(m)
 }
 
+#' Compares allele sizes at a single loci
+#'
+#' @param hm Human marker
+#' @param mm Mosquito marker
 compare_marker <- function(hm,mm){ # compares alleles at a single loci
   nh <- nrow(hm) # number of alleles in each sample
   nm <- nrow(mm)
@@ -50,13 +59,13 @@ compare_marker <- function(hm,mm){ # compares alleles at a single loci
   return(min(te$dist))
 
 }
+
+#' Compares all 10 markers in a mosquito to all 10 markers in a human
+#' @param human Table of marker sizes for human
+#' @param mosquito Table of marker sizes for mosquito
 compare_mosquito <- function(human,mosquito){ # compares a single mosquito and human
   m_names <- c("AMEL","D10S1248","D12S391","D19S433","D1S1656",
                "D22S1045","D2S1338","D2S441","D6S1043","TH01")
-  # m_names <- c("D10S1248","vWA","D16S539","D2S1338","AMEL","D8S1179","D21S11","D18S51",
-  #              "D22S1045","D19S433","TH01","FGA","D2S441","D3S1358","D1S1656","D12S391","SE33")
-  #
-
 
   dist_vec <- vapply(m_names,FUN=function(x){
     htab <- human %>% filter(Marker==x) # for each marker, selects allele sizes and
@@ -67,6 +76,10 @@ compare_mosquito <- function(human,mosquito){ # compares a single mosquito and h
   return(data.frame(dist=av_dist))
 }
 
+#' Compares all 17 markers in a mosquito to all 17 markers in a human
+#'
+#' @param human Table of human marker sizes
+#' @param mosquito Table of mosquito marker sizes
 compare_mosquito_16 <- function(human,mosquito){ # compares a single mosquito and human
   # m_names <- c("AMEL","D10S1248","D12S391","D19S433","D1S1656",
   #              "D22S1045","D2S1338","D2S441","D6S1043","TH01")
@@ -84,6 +97,12 @@ compare_mosquito_16 <- function(human,mosquito){ # compares a single mosquito an
   return(data.frame(dist=av_dist))
 }
 
+#' Compares a mosquito to all humans that live in the house within which it was caught
+#'
+#' @param mosquito Mosquito marker data
+#' @param humans All human marker data
+#' @param threshold Distance below which a mosquito and human are declared a match
+#' @param sixteen boolean value denoting whether 10 or 17 markers are being used
 human_matches <- function(mosquito,humans,threshold,sixteen){ # matches a mosquito to humans from same household
   hum_house <- unique(mosquito$household)
   rel_hum <- humans %>% dplyr::filter(household==hum_house) # select human samples in same house
@@ -153,6 +172,12 @@ human_matches <- function(mosquito,humans,threshold,sixteen){ # matches a mosqui
 #   }
 # }
 
+#' Performs whole analysis for given mosquito and human datasets
+#'
+#' @param mos All mosquito marker sizes
+#' @param hum All human marker sizes
+#' @param threshold Maximum allowable distance for a match
+#' @param sixteen Boolean denoting 10 or 17 markers used
 compare_all <- function(mos,hum,threshold,sixteen){
 
   # First type of matching, return all matches found for suspected multiple feeds
@@ -171,17 +196,17 @@ compare_all <- function(mos,hum,threshold,sixteen){
   return(out)
 }
 
-unique_at_locus <- function(temp){
-    sz <- temp$Size
-    k <- nrow(temp)
-    n <- temp$hnum[1]*2
-    temp %<>% mutate(ver=jd(Size,sizes=sz)) %>% filter(ver==TRUE)
-    if(k >= n){
-      return(temp)
-    }else{
-      return(temp %>% filter(age_cat=="No lol"))
-    }
-}
+# unique_at_locus <- function(temp){
+#     sz <- temp$Size
+#     k <- nrow(temp)
+#     n <- temp$hnum[1]*2
+#     temp %<>% mutate(ver=jd(Size,sizes=sz)) %>% filter(ver==TRUE)
+#     if(k >= n){
+#       return(temp)
+#     }else{
+#       return(temp %>% filter(age_cat=="No lol"))
+#     }
+# }
 
 
 
@@ -207,24 +232,24 @@ unique_at_locus <- function(temp){
 
 
 
-unique_age_cat_household <- function(tab){
-  tab %>% group_by(age_cat)
-}
+# unique_age_cat_household <- function(tab){
+#   tab %>% group_by(age_cat)
+# }
 
 
-jd <- function(val,sizes){
-  ret <- vapply(val,FUN.VALUE = TRUE,FUN = function(x){
-    ifelse(sum(abs(x-sizes)<2)==1,TRUE,FALSE)
-  })
-  return(ret)
-}
+# jd <- function(val,sizes){
+#   ret <- vapply(val,FUN.VALUE = TRUE,FUN = function(x){
+#     ifelse(sum(abs(x-sizes)<2)==1,TRUE,FALSE)
+#   })
+#   return(ret)
+# }
 
-check_household_mosquitoes <- function(human,mosquitoes){
-  mosquitoes %<>% filter(household==human$household & Marker == human$Marker & Size == human$Size)
-  if(nrow(mosquitoes)>1){
-    ret <- data_frame(Human.ID=human$Human.ID,Marker=human$Marker,age_cat=human$age_cat,Mosquito.ID=mosquitoes$MosquitoID)
-  }else{
-    ret <- data.frame()
-  }
-  return(ret)
-}
+# check_household_mosquitoes <- function(human,mosquitoes){
+#   mosquitoes %<>% filter(household==human$household & Marker == human$Marker & Size == human$Size)
+#   if(nrow(mosquitoes)>1){
+#     ret <- data_frame(Human.ID=human$Human.ID,Marker=human$Marker,age_cat=human$age_cat,Mosquito.ID=mosquitoes$MosquitoID)
+#   }else{
+#     ret <- data.frame()
+#   }
+#   return(ret)
+# }
