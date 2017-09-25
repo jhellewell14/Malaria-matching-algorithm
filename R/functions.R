@@ -162,29 +162,6 @@ human_matches <- function(mosquito,humans,threshold,sixteen){ # matches a mosqui
   }
 }
 
-
-# human_matches_2 <- function(mosquito,humans,threshold){
-#   hum_house <- unique(mosquito$household)
-#   rel_hum <- humans %>% dplyr::filter(household==hum_house) # select human samples in same house
-#   if(nrow(rel_hum)==0){rel_hum <- humans}
-#
-#   # select the two allele reads with the largest height at each loci
-#   mosquito %<>% group_by(MosquitoID,Marker) %>% top_n(2,wt=Height) %>% ungroup()
-#
-#   # find minimum distances for each human
-#   rel_hum %<>% group_by(Human.ID) %>% do(compare_mosquito(human=.,mosquito = mosquito))
-#
-#   # go through process for simple cases
-#   min_dist <- rel_hum %>% ungroup %>% top_n(-1,wt=dist)
-#   if(min_dist$dist <= threshold){
-#     verdict <- min_dist$Human.ID
-#     return(data.frame("verdict2"=verdict,"distance2"=min_dist$dist))
-#   }else{
-#     verdict <- "Outside"
-#     return(data.frame("verdict2"=verdict,"distance2"=min_dist$dist))
-#   }
-# }
-
 #' Performs whole analysis for given mosquito and human datasets
 #'
 #' @param mos All mosquito marker sizes
@@ -193,20 +170,10 @@ human_matches <- function(mosquito,humans,threshold,sixteen){ # matches a mosqui
 #' @param sixteen Boolean denoting 10 or 17 markers used
 compare_all <- function(mos,hum,threshold,sixteen){
 
-  # First type of matching, return all matches found for suspected multiple feeds
-  res <- mos %>% group_by(ID) %>% do(human_matches(mosquito=.,humans=h,threshold=threshold,sixteen))
+  # Go mosquito by mosquito, comparing each to relevant humans
+  res <- mos %>% group_by(ID) %>% do(human_matches(mosquito=.,humans=hum,threshold=threshold,sixteen))
 
-  # Second type of matching, for multiple feeds remove the allele at each loci with the lowest heights (potential artifacts)
-  # and match as a simple case
-
-  # re_run <- unique(res$ID[which(res$multiple==TRUE)])
-  # res2 <- mos %>% filter(ID %in% re_run) %>% group_by(ID) %>% do(human_matches_2(mosquito=.,humans=h,threshold=threshold))
-  #
-  # combine results
-  #out <- left_join(res,res2)
-  out <- res
-
-  return(out)
+  return(res)
 }
 
 # unique_at_locus <- function(temp){
