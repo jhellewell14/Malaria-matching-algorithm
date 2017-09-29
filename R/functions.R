@@ -5,7 +5,7 @@ read_humans <- function(sixteen){
 
   # Fetch correct dataset
   if(sixteen){
-    fname<-system.file("extdata/Humans_16.csv",package="malmatch")
+    fname<-system.file("extdata/Humans_17.csv",package="malmatch")
   }else{
     fname<-system.file("extdata/Humans_10.csv",package="malmatch")
   }
@@ -33,15 +33,15 @@ read_mosquitoes <- function(sixteen){
 
   # Fetch correct dataset
   if(sixteen){
-    fname<-system.file("extdata/Mosquitoes_16.csv",package="malmatch")
+    fname<-system.file("extdata/Mosquitoes_17.csv",package="malmatch")
   }else{
     fname<-system.file("extdata/Mosquitoes_10.csv",package="malmatch")
   }
 
   # Read in csv file and clean
-  m <- read.table(fname,header=TRUE,sep=",",colClasses = c("character","character","character","numeric","numeric"))
+  m <- read.table(fname,header=TRUE,sep=",",colClasses = c("character","character","character","numeric"))
 
-  m %<>% filter(Marker!="" & Marker!="." & Height>50) %>% mutate(ID=paste(MosquitoID,Date.of.Collection,sep=""))
+  m %<>% filter(Marker!="" & Marker!=".") %>% mutate(ID=paste(MosquitoID,Date.of.Collection,sep=""))
 
   m %<>% mutate(household=substr(as.character(ID),1,3))
 
