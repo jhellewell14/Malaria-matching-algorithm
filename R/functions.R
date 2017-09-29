@@ -66,7 +66,7 @@ full_analysis <- function(){
   # Shape output
   colnames(res_old) <- c("ID","verdict","distance10","10multiple")
   colnames(res_new) <- c("ID","verdict","distance17","17multiple")
-  temp <- full_join(res_new,res_old %>% filter(ID %in% intersect(unique(m_new$ID),res_old$ID)))
+  temp <- full_join(res_new,res_old %>% filter(ID %in% intersect(unique(m_new$ID),unique(res_old$ID))))
 
   temp %<>% filter(`17multiple`==TRUE) %>% select(ID,verdict,distance10,distance17)
 
