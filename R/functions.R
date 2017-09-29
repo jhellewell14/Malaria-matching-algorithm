@@ -58,9 +58,9 @@ full_analysis <- function(){
   h_old <- read_humans(sixteen = FALSE)
 
   # Perform 17 and 10 marker analyses
-  print("\n===17 marker analysis===\n")
+  print("/n===17 marker analysis===/n")
   res_new <- compare_all(mos=m_new,hum=h_new,threshold=5,sixteen=TRUE)
-  print("\n===10 marker analysis===\n")
+  print("/n===10 marker analysis===/n")
   res_old <- compare_all(mos=m_old,hum=h_old,threshold=5,sixteen=FALSE)
 
   # Shape output
