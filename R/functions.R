@@ -48,6 +48,33 @@ read_mosquitoes <- function(sixteen){
   return(m)
 }
 
+#' Performs entire analysis
+#'
+full_analysis <- function(){
+  # Load datasets
+  m_new <- read_mosquitoes(sixteen = TRUE)
+  m_old <- read_mosquitoes(sixteen = FALSE)
+  h_new <- read_humans(sixteen = TRUE)
+  h_old <- read_humans(sixteen = FALSE)
+
+  # Perform 17 and 10 marker analyses
+  print("\n===17 marker analysis===\n")
+  res_new <- compare_all(mos=m_new,hum=h_new,threshold=5,sixteen=TRUE)
+  print("\n===10 marker analysis===\n")
+  res_old <- compare_all(mos=m_old,hum=h_old,threshold=5,sixteen=FALSE)
+
+  # Shape output
+  colnames(res_old) <- c("ID","verdict","distance10","10multiple")
+  colnames(res_new) <- c("ID","verdict","distance17","17multiple")
+  temp <- full_join(res_new,res_old %>% filter(ID %in% intersect(unique(m_new$ID),res_old$ID)))
+
+  temp %<>% filter(`17multiple`==TRUE) %>% select(ID,verdict,distance10,distance17)
+
+  # Write output in malmatch folder
+  write.csv(temp,"match_comparison.csv")
+
+}
+
 #' Compares allele sizes at a single loci
 #'
 #' @param hm Human marker
