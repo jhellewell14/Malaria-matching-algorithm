@@ -7,3 +7,5 @@ The R package developed to analyse the dataset in the paper detailed below, the 
 Bronner P. Gonçalves, Melissa C. Kapulu, Patrick Sawa, Wamdaogo M. Guelbéogo, Alfred B. Tiono, Lynn Grignard, Will Stone, Joel Hellewell, Kjerstin Lanke, Guido J. H. Bastiaens, John Bradley, Issa Nébié, Joyce M. Ngoi, Robin Oriango, Dora Mkabili, Maureen Nyaurah, Janet Midega, Dyann F. Wirth, Kevin Marsh, Thomas S. Churcher, Philip Bejon, Sodiomon B. Sirima, Chris Drakeley & Teun Bousema 
 
 Nature Communications volume 8, Article number: 1133 (2017) 
+
+https://www.nature.com/articles/s41467-017-01270-4
